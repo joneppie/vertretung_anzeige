@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ "$1" = "" ]; then
+    echo "Aufruf mit einem Parameter:"
+    echo "1: Pfad mit Seiten"
+    exit 100
+fi
+
+pfad=`readlink -f $1`
+pfad=$pfad'/seite_0.html'
+link='file://'$pfad
+sudo echo $link > /boot/fullpageos.txt

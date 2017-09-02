@@ -9,4 +9,5 @@ fi
 pfad=`readlink -f $1`
 pfad=$pfad'/seite_0.html'
 link='file://'$pfad
-sudo echo $link > /boot/fullpageos.txt
+echo $link > tmp_fullpageos.txt
+sudo mv tmp_fullpageos.txt /boot/fullpageos.txt

@@ -1,0 +1,15 @@
+[einzelseite]
+    # Der Plan eines Tages wird auf einer Seite dargestellt
+
+[wechselseite]
+    # Der Plan eines Tages wird auf mehreren Seiten dargestellt,
+    # zwischen denen gewechselt wird
+
+[mehrfachseite]
+    # Der Plan mehrerer Tage wird auf eine Seite zusammengefasst
+
+    #Pfad des Verzeichnis mit den zu verarbeitenden Dateien
+    pfad =
+
+    #Template das genutzt wird
+    ;template = Templates/plan.tmpl

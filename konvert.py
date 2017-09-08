@@ -1,11 +1,12 @@
-#!/bin/usr/python3
+#!/usr/bin/python3
 
 from lxml import html
 from lxml import etree
 import os
-import konvertConfig
+import Konverter
+import re
 
-config = konvertConfig.ConfigLeser('mehrfachseite')
+config = Konverter.ConfigLeser('mehrfachseite')
 pfad = config.getPflichtWert('pfad') + '/'
 template = config.getWert('template', 'Templates/plan.tmpl')
 
@@ -17,6 +18,8 @@ files = sorted(files)
 
 i = 0
 for file in files:
+    if not re.match('subst_', file): #nur Units-Dateien
+        continue
     tree = html.parse(pfad + file)
     kopfkaesten = tree.xpath("//table[@class='info']")
     titles = tree.xpath("//div[@class='mon_title']")
@@ -40,8 +43,3 @@ for file in files:
     i = i+2
 
 tmplTree.write(pfad + 'plan.html', pretty_print=True)
-
-
-
-
-

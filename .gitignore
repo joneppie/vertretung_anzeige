@@ -1,2 +1,4 @@
 *.html
 *.conf
+config.txt
+__pycache__

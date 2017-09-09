@@ -16,7 +16,7 @@ tmplBody = tmplTree.find('body')
 files = os.listdir(pfad)
 files = sorted(files)
 
-i = 0
+i = 1
 for file in files:
     if not re.match('subst_', file): #nur Units-Dateien
         continue
@@ -39,7 +39,6 @@ for file in files:
 
     tmplBody.insert(i, center)
     tmplBody.insert(i+1, listen[0])
-
     i = i+2
 
 tmplTree.write(pfad + 'plan.html', pretty_print=True)

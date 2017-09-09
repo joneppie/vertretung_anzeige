@@ -88,3 +88,12 @@ tr.odd {
 tr.even {
     background: #fdecd9;
 }
+
+div#countdown {
+    height: 15px;
+    width: 150px;
+    background: #f00;
+    position:absolute;
+    right:20px;
+    top:0.3em;
+}

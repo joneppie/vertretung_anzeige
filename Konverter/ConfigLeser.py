@@ -1,13 +1,19 @@
 import configparser
 
 class ConfigLeser:
-    def __init__(self, bereich):
+    def __init__(self, bereich,  pflicht = True):
         self.bereich = bereich
+        self.exist = True
         self.config = configparser.ConfigParser()
         self.config.read('config.txt')
         if bereich not in self.config.sections():
-            raise Exception('Bereich: "' + bereich +
+            self.exist = False
+            if pflicht:
+                raise Exception('Bereich: "' + bereich +
                             '" ist nicht in der Config vorhanden')
+
+    def isExist(self):
+        return self.exist
 
     def getWert(self, key, defaultWert = None):
         return self.config[self.bereich].get(key, defaultWert)

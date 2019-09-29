@@ -11,14 +11,14 @@ class Mehrfachseite:
         tmplTree = html.parse(self.template)
         tmplBody = tmplTree.find('body')
 
-        files = os.listdir(pfad)
+        files = os.listdir(pfad + '/')
         files = sorted(files)
 
         i = 1
         for file in files:
             if not re.match('subst_', file): #nur Units-Dateien
                 continue
-            tree = html.parse(pfad + file)
+            tree = html.parse(pfad + '/' + file)
             kopfkaesten = tree.xpath("//table[@class='info']")
             titles = tree.xpath("//div[@class='mon_title']")
             listen = tree.xpath("//table[@class='mon_list']")
@@ -39,7 +39,7 @@ class Mehrfachseite:
             tmplBody.insert(i+1, listen[0])
             i = i+2
 
-        tmplTree.write(pfad + 'plan.html', pretty_print=True)
+        tmplTree.write(pfad + '/plan.html', pretty_print=True)
 
 if __name__ == "__main__":
     print("Klasse ist nicht direkt aufrufbar")

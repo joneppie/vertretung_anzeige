@@ -1,9 +1,25 @@
-[einzelseite]
-    # Der Plan eines Tages wird auf einer Seite dargestellt
+[einzelseiten]
+    # Der Plan wird auf einzelnen Seiten so angezeigt, wie sie aus Units kommen
+    # Zusätzlich ist es möglich zwei Tage mit Links und Recht mit automatischer
+    # Beachtung des Tageswechsels (Mitternacht)
 
-[wechselseite]
-    # Der Plan eines Tages wird auf mehreren Seiten dargestellt,
-    # zwischen denen gewechselt wird
+    #Zweitagesversion (0: nein, 1: ja)
+    zweitage = 0
+
+    #Präfix für den aktuellen Tag (Bei zwei Seiten nebeneinander)
+    ;aktTag = _akt
+
+    #Präfix für den folgenden Tag (Bei zwei Seiten nebeneinander)
+    ;nextTag = _next
+
+    # Präfix für Ausgabeverzeichnis
+    ausgabe = _out
+
+    #Pfade der Verzeichnisse mit den zu verarbeitenden Dateien. Jeder Pfad eine Zeile
+    pfade =
+
+    #Template das genutzt wird
+    ;template = Templates/plan.tmpl
 
 [mehrfachseite]
     # Der Plan mehrerer Tage wird auf eine Seite zusammengefasst

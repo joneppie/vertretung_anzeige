@@ -6,6 +6,9 @@
     #Zweitagesversion (0: nein, 1: ja)
     zweitage = 0
 
+    # Platzhalter, wenn der Tag gewechselt ist
+    ;platzhalter = platzhalter.htm
+
     #Präfix für den aktuellen Tag (Bei zwei Seiten nebeneinander)
     ;aktTag = _akt
 

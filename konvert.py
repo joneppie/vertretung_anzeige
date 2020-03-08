@@ -11,8 +11,9 @@ if config.isExist():
     aktTag = config.getWert('aktTag', '')
     nextTag = config.getWert('nextTag',  '')
     ausgabe = config.getWert('ausgabe',  '_out')
+    platzhalter  = config.getWert('platzhalter',  '')
 
-    einzelseiten = Konverter.Einzelseiten(template, zweitage,  aktTag,  nextTag,  ausgabe)
+    einzelseiten = Konverter.Einzelseiten(template, zweitage,  aktTag,  nextTag,  ausgabe,  platzhalter)
     for pfad in pfade.split():
         einzelseiten.konvert(pfad)
 

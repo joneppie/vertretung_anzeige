@@ -2,20 +2,31 @@ from lxml import html
 from lxml import etree
 import os
 import re
+import Konverter
+import shutil
+import glob
 
 class Einzelseiten:
-    def __init__(self, template,  zweitage,  aktTag,  nextTag,  ausgabe):
+    def __init__(self, template,  zweitage,  aktTag,  nextTag,  ausgabe,  platzhalter):
         self.template = template
         self.zweitage = zweitage
         self.aktTag = aktTag
         self.nextTag = nextTag
         self.ausgabe = ausgabe
+        self.zeiten = None
+        self.platzhalter = platzhalter
 
     def konvert(self,  pfad):
         if self.zweitage == '1':
-            self._konvertTeile(pfad + self.aktTag)
-            self._konvertTeile(pfad + self.nextTag)
+            self.zeiten = Konverter.Zeiten(pfad + self.aktTag + self.ausgabe)
+            if self.zeiten.readTime() < Konverter.Zeiten.getToday():
+                self.moveToNewDay(pfad)
+            else:
+                self._konvertTeile(pfad + self.aktTag)
+                self._konvertTeile(pfad + self.nextTag)
         else:
+            self.zeiten = Konverter.Zeiten(pfad + self.ausgabe)
+            self.zeiten.readTime()
             self._konvertTeile(pfad)
 
     def _konvertTeile(self, pfad):
@@ -24,6 +35,8 @@ class Einzelseiten:
 
         for file in files:
             if not re.match('subst_', file): #nur Units-Dateien
+                continue
+            if os.path.getmtime(pfad + '/' + file) < self.zeiten.getTime(): #nur neuere Dateien
                 continue
             #Templatedatei neu laden
             tmplTree = html.parse(self.template)
@@ -57,6 +70,13 @@ class Einzelseiten:
             tmplBody.attrib['onload'] = "countdown(" + refreshtime + ",5)"
 
             tmplTree.write(pfad + self.ausgabe + '/' + file, pretty_print=True)
+            self.zeiten.writeTime()
+
+    def moveToNewDay(self,  path):
+        for file in glob.glob(path + self.nextTag + self.ausgabe + "/subst_*"):
+            shutil.copy(file,  path + self.aktTag + self.ausgabe)
+        shutil.copy(self.platzhalter,  path + self.nextTag + self.ausgabe + "/subst_001.htm")
+        self.zeiten.writeTime()
 
 if __name__ == "__main__":
     print("Klasse ist nicht direkt aufrufbar")

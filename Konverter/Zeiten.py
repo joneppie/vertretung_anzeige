@@ -28,4 +28,10 @@ class Zeiten:
         return self.time
 
     def getToday():
-        return time.mktime(time.strptime(datetime.datetime.now().strftime("%d.%m.%Y"), "%d.%m.%Y"))
+        return int(time.mktime(time.strptime(datetime.datetime.now().strftime("%d.%m.%Y"), "%d.%m.%Y")))
+
+    def getTimeToday(zeit):
+        return int(time.mktime(time.strptime(datetime.datetime.now().strftime("%d.%m.%Y") + " " + zeit, "%d.%m.%Y %H:%M")))
+
+    def setTimeToBeginn(self):
+        self.time = int(time.mktime(time.strptime(datetime.datetime.now().strftime("%d.%m.%Y"), "%d.%m.%Y")))

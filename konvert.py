@@ -17,6 +17,14 @@ if config.isExist():
     for pfad in pfade.split():
         einzelseiten.konvert(pfad)
 
+    pfadeMitSperre = config.getWert('pfadeMitSperre',  None)
+    if pfadeMitSperre:
+        sperrzeitBeginn = config.getPflichtWert('sperrzeitBeginn')
+        sperrzeitEnde = config.getPflichtWert('sperrzeitEnde')
+        sperrzeitAnzeige = config.getPflichtWert('sperrzeitAnzeige')
+        for pfad in pfadeMitSperre.split():
+            einzelseiten.konvertSperre(pfad,  sperrzeitBeginn,  sperrzeitEnde,  sperrzeitAnzeige)
+
 ###Mehfrachseite
 config = Konverter.ConfigLeser('mehrfachseite',  False)
 if config.isExist():

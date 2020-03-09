@@ -24,6 +24,16 @@
     #Template das genutzt wird
     ;template = Templates/plan.tmpl
 
+    # Die Möglichkeit Einzelseiten auch mit einer Sperrzeit zu versehen, in der eine
+    # die entsprechend gewählte Anzeigeseite stattdessen ausgegeben wird
+    sperrzeitBeginn = 4:00
+
+    sperrzeitEnde = 7:40
+
+    sperrzeitAnzeige = sperre.htm
+
+    pfadeMitSperre =
+
 [mehrfachseite]
     # Der Plan mehrerer Tage wird auf eine Seite zusammengefasst
 

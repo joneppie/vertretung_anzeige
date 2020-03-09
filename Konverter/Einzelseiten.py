@@ -5,6 +5,7 @@ import re
 import Konverter
 import shutil
 import glob
+import time
 
 class Einzelseiten:
     def __init__(self, template,  zweitage,  aktTag,  nextTag,  ausgabe,  platzhalter):
@@ -77,6 +78,42 @@ class Einzelseiten:
             shutil.copy(file,  path + self.aktTag + self.ausgabe)
         shutil.copy(self.platzhalter,  path + self.nextTag + self.ausgabe + "/subst_001.htm")
         self.zeiten.writeTime()
+
+    def konvertSperre(self,  pfad,  sperrzeitBeginn,  sperrzeitEnde,  sperrzeitAnzeige):
+        if self.zweitage == '1': #Zeiten auslesen
+            self.zeiten = Konverter.Zeiten(pfad + self.aktTag + self.ausgabe)
+        else:
+            self.zeiten = Konverter.Zeiten(pfad + self.ausgabe)
+        self.zeiten.readTime()
+        if ( # In der Sperrzeit?
+                self.zeiten.getTime() < Konverter.Zeiten.getTimeToday(sperrzeitBeginn)
+                and Konverter.Zeiten.getTimeToday(sperrzeitBeginn) < time.time()
+                and time.time() < Konverter.Zeiten.getTimeToday(sperrzeitEnde)
+            ):
+            if self.zweitage == '1':
+                shutil.copy(pfad + self.nextTag + self.ausgabe + "/subst_001.htm",  pfad + self.nextTag + self.ausgabe + "/subst_sicherung_001.htm")
+                shutil.copy(sperrzeitAnzeige,  pfad + self.nextTag + self.ausgabe + "/subst_001.htm")
+                shutil.copy(pfad + self.aktTag + self.ausgabe + "/subst_001.htm",  pfad + self.aktTag + self.ausgabe + "/subst_sicherung_001.htm")
+                shutil.copy(sperrzeitAnzeige,  pfad + self.aktTag + self.ausgabe + "/subst_001.htm")
+            else:
+                shutil.copy(pfad + self.ausgabe + "/subst_001.htm",  pfad + self.ausgabe + "/subst_sicherung_001.htm")
+                shutil.copy(sperrzeitAnzeige,  pfad + self.ausgabe + "/subst_001.htm")
+            self.zeiten.writeTime()
+        elif ( # Nach der Sperrzeit?
+                Konverter.Zeiten.getTimeToday(sperrzeitBeginn) < self.zeiten.getTime()
+                and self.zeiten.getTime() < Konverter.Zeiten.getTimeToday(sperrzeitEnde)
+                and Konverter.Zeiten.getTimeToday(sperrzeitEnde) < time.time()
+            ):
+            if self.zweitage == '1':
+                shutil.copy(pfad + self.nextTag + self.ausgabe + "/subst_sicherung_001.htm",  pfad + self.nextTag + self.ausgabe + "/subst_001.htm")
+                shutil.copy(pfad + self.aktTag + self.ausgabe + "/subst_sicherung_001.htm",  pfad + self.aktTag + self.ausgabe + "/subst_001.htm")
+            else:
+                shutil.copy(pfad + self.ausgabe + "/subst_sicherung_001.htm",  pfad + self.ausgabe + "/subst_001.htm")
+            self.zeiten.setTimeToBeginn()
+            self.konvert(pfad)
+        else:
+            self.konvert(pfad)
+
 
 if __name__ == "__main__":
     print("Klasse ist nicht direkt aufrufbar")
